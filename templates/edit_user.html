@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='reports_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}">
+    <style>
+      /* Style the dropdown button */
+.dropbtn {
+  background-color: #fff;
+  color: #333;
+  padding: 8px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Style the dropdown content (hidden by default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 1;
+  background-color: #fff;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+}
+
+/* Show the dropdown content on hover */
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Style the checkboxes */
+.dropdown-content label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+    </style>
+    </head>
+    <body>
+      <table>
+        <thead>
+            <tr>
+                {% for column in columns %}
+                <th>{{ column }}</th>
+                {% endfor %}
+                <th>Access</th> <!-- add new column for checkboxes -->
+                <th>Update</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in range(value|length) %}
+            <tr>
+                {% for val in value[row] %}
+                <td>{{ val }}</td>
+                {% endfor %}
+                <td>
+                    <button onclick=manageAccess("{{value[row][0]}}","{{row}}")>Show Access</button>
+                    <div id="dropdown-{{ row }}"></div>
+                </td>
+                <td><a href="/update">Update</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        <ul class='bg'>
+            <li><a href="/Home">Home</a></li>
+            <li><a class='color' href="#" data-href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow">Health Dashbord</a></li>
+            <li>
+                <a href="#">Reports</a>
+                <ul class="dropdown" style="width:200%">
+                   {%if(lis[0]==1)%}
+                    <li><a class="color" href="#" data-href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow" >AEPS Analysis</a></li> 
+                    {% endif %}
+                    {%if(lis[1]==1)%}
+                    <li><a class="color" href="#" data-href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow" >DMT Analysis</a></li>
+                    {% endif %}
+                    {%if(lis[2]==1)%}
+                    <li><a class="color" href="#" data-href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow" >Service Report</a></li>
+                    {% endif %}
+                    {%if(lis[3]==1)%}
+                    <li><a class="color" href="#" data-href= "https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow" >Sahibnk Report</a></li> 
+                    {% endif %}
+                    {%if(lis[4]==1)%}
+                    <li><a class="color" href="#" data-href= "https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow" >AEPS Failure Report</a></li>
+                    {% endif %}
+                    {%if(lis[5]==1)%}
+                    <li><a class="color" href="#" data-href= "https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow" >DMT Failure Report</a></li>
+                    {% endif %}
+                    {%if(lis[6]==1)%}
+                    <li><a class="color" href="#" data-href= "https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow" >VAS Failure Report</a></li>
+                    {% endif %}                 
+                </ul>  
+            </li> 
+            <li><a href="#">User Mgmt</a>
+                <ul class="dropdown">
+                   <li><a href="/add"> Add/Edit Role </a> </li>
+                   <li><a href="/try">Add/Edit Users </a> </li>
+                </ul>
+            <li><a href="/">Logout</a><li>  
+            <li><a href= "/dashbord">(WIP)</a><li>        
+        </ul> 
+        
+         
+        <script>
+            function manageAccess(username, rowIndex) {
+                var anchor = document.getElementById("dropdown-" + rowIndex).previousSibling;
+                var dropdown = document.getElementById("dropdown-" + rowIndex);
+            
+                if (dropdown.style.display === "block") {
+                    // Dropdown is currently visible, so hide it
+                    dropdown.style.display = "none";
+                    anchor.classList.remove("active");
+                } else {
+                    // Dropdown is currently hidden, so show it
+                    $.ajax({
+                        type: "POST",
+                        url: "/manage_access/"+username,
+                        success: function(response) {
+                            showDropdown(response, dropdown, anchor);
+                        },
+                        error: function(xhr) {
+                            console.log("Error: " + xhr.statusText);
+                        }
+                    });
+                }
+            }
+            
+            
+            function showDropdown(data, dropdown, anchor) {
+                dropdown.innerHTML = "";
+                var items = [];
+            
+                for (var key in data) {
+                    if (data[key] == 1) {
+                        items.push("<li>" + key + "</li>");
+                    }
+                }
+            
+                dropdown.innerHTML = "<ul>" + items.join("") + "</ul>";
+                dropdown.style.display = "block";
+                anchor.classList.add("active");
+            }
+          </script>
+    </body>
+</html> 

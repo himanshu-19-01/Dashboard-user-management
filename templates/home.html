@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">    
+     
+    <link rel="stylesheet" href="{{ url_for('static', filename='reports_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home_style.css') }}">
+    </head>
+    <body>
+       
+        <ul class='bg'>
+            <li><a href="/Home">Home</a></li>
+            <li><a class='color' href="#" data-href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow">Health Dashbord</a></li>
+            <li>
+                <a href="#">Reports</a>
+                <ul class="dropdown" style='width:200%'>
+                    {% for i in range(report|length) %}
+                    {%if(lis[i]==1)%}
+                    <li><a href="{{ link[i] }}">{{report[i] }}</a></li>
+                    {%endif%}
+                    {% endfor %}                 
+                </ul>  
+            </li> 
+            <li><a href="#">User Mgmt</a>
+                <ul class="dropdown">
+                   <li><a href="/add"> Add/Edit Role </a> </li>
+                   <li><a href="/try">Add/Edit Users </a> </li>
+                </ul>
+            <li><a href="/">Logout</a><li>  
+            <li><a href= "/dashbord">(WIP)</a><li>        
+        </ul> 
+        
+        <div class="Card1">
+           <img style="width:1490px;margin-top:50px;" src="static\images\Screenshot (45).png">
+        </div>
+        <script>
+            var links = document.querySelectorAll(".color");
+          
+            links.forEach(function(link) {
+              link.addEventListener("click", function(event) {
+                event.preventDefault();
+                var href = this.getAttribute("data-href");
+                window.location.href = "reports?link=" + encodeURIComponent(href);
+              });
+            });
+          </script>
+    </body>
+</html> 

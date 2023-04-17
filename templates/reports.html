@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+ 
+<html lang="en">
+    <head>
+    <meta charset="utf-8">    
+    <link rel="stylesheet" href="{{ url_for('static', filename='reports_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='home_style.css') }}">
+    </head>
+    <body>
+        <ul class='bg'>
+            <li><a href="/Home">Home</a></li> 
+            <li><a href="reports?link=https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" target='_self'>Health Dashbord</a></li> 
+            <li>
+                <a href="#">Reports</a>
+                <ul class="dropdown" style='width:200%'>
+                  {% for i in range(report|length) %}
+                  {%if(lis[i]==1)%}
+                 <li><a href="{{ link[i] }}">{{report[i] }}</a></li>
+                  {%endif%}
+                  {% endfor %}                 
+              </ul>  
+            </li> 
+            <li><a href="/">Logout</a><li>   
+            <li><a id='btn1' href="/dashbord">(WIP)</a><li>     
+        </ul> 
+        <div class="Card1">
+            <iframe id="my-iframe" title="Aeps  failure report" width="1450" height="650" src="" frameborder="1" allowFullScreen="true" style="margin-top:50px;"></iframe>
+         </div>
+        
+<script>
+    var iframe = document.getElementById("my-iframe");
+    var urlParams = new URLSearchParams(window.location.search);
+    var link = urlParams.get("link");
+  
+    if (link) {
+      iframe.src = link;
+    }
+  </script> 
+  <script>
+    // Get the URL parameter for the clicked link
+    var urlParams = new URLSearchParams(window.location.search);
+    var link = urlParams.get("link");
+  
+    // Set the src attribute of the iframe to the clicked link
+    var iframe = document.getElementById("my-iframe");
+    iframe.src = link;
+  </script>
+   
+  <script>
+    // Get all the anchor tags with the "link" class
+    var anchorTags = document.querySelectorAll(".color");
+  
+    // Add click event listeners to all anchor tags
+    for (var i = 0; i < anchorTags.length; i++) {
+      anchorTags[i].addEventListener("click", function(event) {
+        // Prevent the default behavior of the anchor tag
+        event.preventDefault();
+  
+        // Get the value of the href attribute of the clicked anchor tag
+        var link = this.getAttribute("href");
+  
+        // Set the src attribute of the iframe to the clicked link
+        var iframe = document.getElementById("my-iframe");
+        iframe.src = link;
+      });
+    }
+  </script>
+    </body>
+</html> 

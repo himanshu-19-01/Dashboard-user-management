@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Add User Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_admin.css') }}">
+	<link rel="stylesheet" href="{{ url_for('static', filename='reports_style.css') }}">
+</head>
+<body>
+    {%if msg %}
+                <p style="color:blue;text-align:center;margin-top:50px;"><strong>{{msg}}</strong></p>
+    {% endif %}
+	<ul class='bg'>
+		<li><a href="/Home">Home</a></li> 
+		<li><a href="reports?link=https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" target='_self'>Health Dashbord</a></li> 
+		<li>
+			<a href="#">Reports</a>
+			<ul class="dropdown">
+				<li><a class="color" href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" >AEPS Analysis</a></li> 
+				<li><a class="color" href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" >DMT Analysis</a></li>
+				<li><a class="color" href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" >Service Report</a></li>
+				<li><a class="color" href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" >Sahibnk Report</a></li> 
+				<li><a class="color" href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" >AEPS Failure Report</a></li>
+				<li><a class="color" href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" >DMT Failure Report</a></li>
+				<li><a class="color" href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" >VAS Failure Report</a></li>
+				<li><a class="color" href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" >SahiPay Health Dashbord</a></li>
+			</ul>  
+		</li> 
+		<li><a href="/">Logout</a><li>   
+		<li><a id='btn1' href="/dashbord">(WIP)</a><li>     
+	</ul> 
+	<!doctype html>
+	<html>
+	<head>
+		<title>Table Data</title>
+		<style>
+			table {
+				border-collapse: collapse;
+				width: 80%;
+				margin-left:200%; 
+				margin-top:50%;/* Add this line to center the table */
+			  }
+			
+			td, th {
+				border: 1px solid black;
+				padding: 5px;
+			}
+			td {
+				text-align: center;
+			}
+		</style>
+		 
+	</head>
+	<body>
+		<form action="/delete" method="post" id="deleteForm">
+			<table>
+				<tr>
+					<th>S_no</th> 
+					<th>Name</th>
+					<th>Password</th>
+					<th>Access</th>
+					<th>Delete</th>
+				</tr>
+				{% for row in rows %}
+				<tr>
+					<td>{{row.s_no}}</td>
+					<td>{{ row.name }}</td>
+					<td>{{ row.password }}</td>
+					<td>{{ row.Access }}</td>
+					<td><input type="checkbox" name="id" value="{{ row.s_no }}"></td>
+				</tr>
+				{% endfor %}
+			</table>
+			<input type="hidden" name="confirm" id="confirm" value="false">
+			<input type="submit" value="Delete" style="margin-left:270%;margin-top:5px;" onclick=confirmDelete()>
+		</form>
+	</body>
+	</html>
+	<script>
+		function confirmDelete() {
+		  if (confirm("Are you sure you want to delete this row?")) {
+			document.getElementById("confirm").value = "true";
+			document.getElementById("deleteForm").submit();
+		  }
+		}
+		</script>
+</body>
+</html>

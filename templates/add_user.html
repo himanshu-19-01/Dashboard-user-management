@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Report Form</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='reports_style.css') }}">
+    <style>
+      /* CSS styles for the form */
+      #report-form {
+        display: block;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        border: 1px solid #ccc;
+        background-color: #fff;
+        z-index: 9999;
+        width: 400px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      }
+      .form-group {
+        margin-bottom: 10px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input[type="text"],
+      input[type="password"],
+      select {
+        width: 100%;
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+      }
+      .minimize-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+        font-size: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <ul class='bg'>
+      <li><a href="/Home">Home</a></li>
+      <li><a class='color' href="#" data-href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow">Health Dashbord</a></li>
+      <li><a href="#">Reports</a>
+          <ul class="dropdown" style="width:200%;">
+            {% for i in range(lis|length) %}
+            {%if(lis[i]==1)%}
+           <li><a href="{{ link[i] }}">{{lis1[i] }}</a></li>
+            {%endif%}
+            {% endfor %}                 
+        </ul> 
+      </li> 
+      <li><a href="#">User Mgmt</a>
+          <ul class="dropdown">
+             <li><a href="/add"> Add/Edit Role </a> </li>
+             <li><a href="/try">Add/Edit Users </a> </li>
+          </ul>
+      <li><a href="/">Logout</a><li>  
+      <li><a href= "/dashbord">(WIP)</a><li>        
+  </ul> 
+    
+    <div id="report-form">
+      <span class="minimize-btn">-</span>
+      <h2>Manage User Access</h2>
+      <form method='post'>
+        {%if msg %}
+                <p style="color:#c90f0fb3;text-align:center;"><strong>{{msg}}</strong></p>
+        {% endif %}
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+
+        <div class="form-group">
+          <label for="reports">Reports</label>
+          {%for i in range(lis1|length)%}
+          <div>
+             <label>
+              <input type="checkbox" name="reports[]" value={{lis1[i]}} />
+               {{lis1[i]}}
+            </label>
+          </div>
+          {%endfor%}
+        </div>
+
+        <div class="form-group">
+          <label for="report-category">Report Category</label>
+          <select id="report-category" name="report-category">
+            <option value="admin">admin</option>
+            <option value="Employee">Employee</option>
+            <option value="local">local</option>
+          </select> 
+
+        <button type="submit">Submit</button>
+      </form>
+    </div>
+    
+     
+    <script>
+
+      // JavaScript code for the form
+      const form = document.querySelector('#report-form');
+      const showFormBtn = document.querySelector('#show-form');
+      const minimizeBtn = document.querySelector('.minimize-btn');
+
+
+      minimizeBtn.addEventListener('click', () => {
+        form.style.display = 'none';
+      });
+    </script>
+  </body>
+</html>

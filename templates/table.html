@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+ 
+<html lang="en">
+    <head>
+    <meta charset="utf-8">    
+    <link rel="stylesheet" href="{{ url_for('static', filename='reports_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='table.css') }}">
+	 
+ 
+    </head>
+    <body>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Reports</th> 
+                    <th>User List</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(reports|length) %}
+                <tr>
+                    <td>{{ reports[i] }}</td> 
+                    <td onmouseover="showTooltip({{ dfs[i][['Name', 'Password', 'Access']].values.tolist() }});" onmouseout="hideTooltip();">{{ users[i] }}</td> 
+                    <td><a id="show-form{{ loop.index }}" href="/edit/{{ loop.index }}">Edit</a> / <a href="/delete-report">Delete</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <button onclick="window.location.href='/submit-report'" id="report-btn">Create Report</button>
+        <div>
+            <ul class='bg'>
+                <li><a href="/Home">Home</a></li>
+                <li><a class='color' href="#" data-href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow">Health Dashbord</a></li>
+                <li>
+                    <a href="#">Reports</a>
+                    <ul class="dropdown" style='width:200%'>
+                        {% for i in range(reports|length) %}
+                        {%if(lis[i]==1)%}
+                       <li><a href="{{ link[i] }}">{{reports[i] }}</a></li>
+                        {%endif%}
+                        {% endfor %}                 
+                    </ul>  
+                </li> 
+                <li><a href="#">User Mgmt</a>
+                    <ul class="dropdown">
+                       <li><a href="/add"> Add/Edit Role </a> </li>
+                       <li><a href="/try">Add/Edit Users </a> </li>
+                    </ul>
+                <li><a href="/">Logout</a><li>  
+                <li><a href= "/dashbord">(WIP)</a><li>        
+            </ul> 
+        </div>
+            
+        <!-- Form to create report -->
+        
+        <script>
+            function showTooltip(df) {
+                // Create a new tooltip element
+                var tooltip = document.createElement("div");
+                tooltip.className = "tooltip";
+                
+                // Create a new table element to display the DataFrame
+                var table = document.createElement("table");
+                table.className = "dataframe";
+                tooltip.appendChild(table);
+                
+                // Add the DataFrame to the table
+                for (var i = 0; i < df.length; i++) {
+                    var row = table.insertRow(-1);
+                    for (var j = 0; j < df[i].length; j++) {
+                        var cell = row.insertCell(-1);
+                        cell.innerHTML = df[i][j];
+                    }
+                }
+                
+                // Position the tooltip next to the mouse cursor
+                tooltip.style.top = (event.pageY - 10) + "px";
+                tooltip.style.left = (event.pageX + 10) + "px";
+                
+                // Add the tooltip to the page
+                document.body.appendChild(tooltip);
+            }
+            
+            function hideTooltip() {
+                // Remove the tooltip from the page
+                var tooltip = document.getElementsByClassName("tooltip")[0];
+                if (tooltip) {
+                    tooltip.parentNode.removeChild(tooltip);
+                }
+            }
+        </script>
+        
+    
+ 
+<body>
+<html>		

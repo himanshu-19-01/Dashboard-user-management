@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+ 
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>login</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='login_style.css') }}">
+    </head>
+    <body>
+    <div class="container">
+        <div class="logo1">
+        <img src="static/images/img.png" style="height:130px;width:170px;left:5%;"  alt="Image description" class="colored"/> 
+        </div>
+        <div class='center'><p class='center1'>Welcome to MBS Report Portal.</p> </div>
+    </div>
+        <div class="wrapper">
+            <div class ="center2">
+                {%if error %}
+                <p style="color:#c90f0fb3;"><strong>{{error}}</strong></p>
+                {% endif %}
+            </div>
+            <div class="logo">
+               <h1>Login</h1>
+            </div>
+            <form class="p-3 mt-3" method='post'>
+                <div class="form-field d-flex align-items-center">
+                    <span class="far fa-user"></span>
+                    <label for ="userName" class="label">Username</label>
+                    <input type="text" name="userName" id="userName">
+                </div>
+                <div class="form-field d-flex align-items-center">
+                    <span class="fas fa-key"></span>
+                    <label for ="pwd" class="label">Password</label>
+                    <input type="password" name="password" id="pwd">
+                </div>
+                <button class="btn mt-3">Sign in</button>
+            </form>
+        </div>
+        
+        
+    </body>
+</html>

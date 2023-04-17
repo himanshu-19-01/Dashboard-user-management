@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8">    
+     
+    <link rel="stylesheet" href="{{ url_for('static', filename='reports_style.css') }}">
+    <style>
+         
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+          }
+          
+          form {
+            background-color: #f2f2f2;
+            padding: 20px;
+            border-radius: 10px;
+          }
+          
+          h2 {
+            text-align: center;
+          }
+          
+          .input-field {
+            margin-bottom: 20px;
+          }
+          
+          label {
+            display: block;
+            margin-bottom: 5px;
+          }
+          
+          input {
+            border: none;
+            border-radius: 5px;
+            padding: 5px;
+            width: 100%;
+            box-sizing: border-box;
+          }
+          
+          button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out;
+          }
+          
+          button:hover {
+            background-color: #3e8e41;
+          }
+          
+    </style>
+    </head>
+    <body>
+       
+        <ul class='bg'>
+            <li><a href="/Home">Home</a></li>
+            <li><a class='color' href="#" data-href="https://app.powerbi.com/view?r=eyJrIjoiZWJjMzc5NDAtZmM4NC00MTUzLTk0ZWItZDBmM2Y4OTEwMjU4IiwidCI6IjI2ZmY2MmEwLTAzYmQtNDcyZS05NzYxLTc5ZGE0ZGYwMzlmNSJ9" rel="nofollow">Health Dashbord</a></li>
+            <li>
+                <a href="#">Reports</a>
+                <ul class="dropdown" style="width:200%">
+                    {% for i in range(reports|length) %}
+                    {%if(lis[i]==1)%}
+                   <li><a href="{{ link[i] }}">{{reports[i] }}</a></li>
+                    {%endif%}
+                    {% endfor %}                 
+                </ul>  
+            </li> 
+            <li><a href="#">User Mgmt</a>
+                <ul class="dropdown">
+                   <li><a href="/add"> Add/Edit Role </a> </li>
+                   <li><a href="/try">Add/Edit Users </a> </li>
+                </ul>
+            <li><a href="/">Logout</a><li>  
+            <li><a href= "/dashbord">(WIP)</a><li>        
+        </ul> 
+        <div class="container">
+          {%if msg %}
+          <p style="color:#c90f0fb3;text-align:center;font-size:20px;"><strong>{{msg}}</strong></p>
+          {% endif %}
+            <form method="POST">
+              <h2>Enter Report Details for Confirmation </h2>
+              <div class="input-field">
+                <label for="report-name">Report Name:</label>
+                <input type="text" id="report-name" name="report_name">
+              </div>
+              <div class="input-field">
+                <label for="report-link">Report Link:</label>
+                <input type="text" id="report-link" name="report_link">
+              </div>
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        <script>
+            var links = document.querySelectorAll(".color");
+          
+            links.forEach(function(link) {
+              link.addEventListener("click", function(event) {
+                event.preventDefault();
+                var href = this.getAttribute("data-href");
+                window.location.href = "reports?link=" + encodeURIComponent(href);
+              });
+            });
+          </script>
+    </body>
+</html> 
